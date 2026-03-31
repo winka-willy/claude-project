@@ -1,0 +1,10 @@
+# Credentials — each team member has their own, never commit these
+.claude/settings.json
+mcp-config.json
+
+# Auto-generated personal files
+log-history.md
+logs/
+
+# Dependencies
+node_modules/

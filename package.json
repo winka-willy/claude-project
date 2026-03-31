@@ -1,0 +1,12 @@
+{
+  "name": "claude-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sprout-clockout": "node scripts/sprout-clockout.js"
+  },
+  "dependencies": {
+    "playwright": "^1.50.0"
+  }
+}
