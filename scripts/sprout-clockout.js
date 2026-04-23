@@ -28,7 +28,7 @@ async function run() {
 
   try {
     console.log(`Navigating to ${SPROUT_URL}...`);
-    await page.goto(SPROUT_URL, { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto(SPROUT_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     if (loginPage.isOnLoginPage()) {
       console.log('Login required. Authenticating...');
@@ -37,27 +37,21 @@ async function run() {
       console.log('Already on dashboard (session still active).');
     }
 
-    await dashboardPage.waitForLoad(15000);
+    await dashboardPage.waitForLoad(30000);
 
     if (loginPage.isOnLoginPage()) {
-      await loginPage.saveScreenshot('login-failed');
       throw new Error('Login failed — still on login page. Check credentials.');
     }
 
     console.log('On dashboard. Looking for Time Out button...');
-    await dashboardPage.saveScreenshot('dashboard');
 
     const clicked = await dashboardPage.clickTimeOut();
 
     if (!clicked) {
-      await dashboardPage.saveScreenshot('timeout-button-not-found');
-      throw new Error(
-        'Could not find the Time Out button. A screenshot has been saved to logs/ for debugging.'
-      );
+      throw new Error('Could not find the Time Out button.');
     }
 
     await dashboardPage.handleConfirmation();
-    await dashboardPage.saveScreenshot('clocked-out');
 
     const now = new Date();
     const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
@@ -66,7 +60,6 @@ async function run() {
     console.log(`\n✓ Successfully clocked out at ${timeStr} on ${dateStr}`);
   } catch (err) {
     console.error(`\nERROR: ${err.message}`);
-    await dashboardPage.saveScreenshot('error');
     process.exit(1);
   } finally {
     await browser.close();

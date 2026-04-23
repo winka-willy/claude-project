@@ -20,8 +20,7 @@ The script reads `SPROUT_EMAIL` and `SPROUT_PASSWORD` from the environment (alre
      ```
 
 3. **If the script fails** with "Could not find the Time Out button":
-   - A screenshot was saved to the `logs/` folder.
-   - Tell the user: "The Time Out button wasn't found. Check `logs/` for a screenshot of the dashboard. You may need to run `/daily-clock-out-activate --headed` to debug visually."
+   - Tell the user: "The Time Out button wasn't found. You may need to run `/daily-clock-out-activate --headed` to debug visually."
    - Then re-run with `--headed` flag if the user asks:
      ```bash
      cd "c:\Users\jhonw\OneDrive\Desktop\Claude project" && node scripts/sprout-clockout.js --headed
@@ -29,14 +28,11 @@ The script reads `SPROUT_EMAIL` and `SPROUT_PASSWORD` from the environment (alre
 
 4. **If the script fails** with "Login failed":
    - Tell the user the credentials may be wrong or expired.
-   - A screenshot is saved in `logs/` showing the login page state.
 
 5. **If the script fails** with any other error:
    - Show the error message clearly.
-   - Mention that a screenshot was saved to `logs/` for debugging.
 
 ## Notes
 - Do NOT ask the user for credentials — they are stored in `.claude/settings.json`.
 - The `--headed` flag opens a visible browser window for debugging.
-- Screenshots are saved automatically on both success and failure in the `logs/` folder.
 - This skill is safe to run multiple times — if already clocked out, Sprout HR typically shows no active Time Out button and the script will report it.

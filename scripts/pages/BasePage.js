@@ -73,6 +73,6 @@ export class BasePage {
   }
 
   async waitForLoad(timeout = 30000) {
-    await this.page.waitForLoadState('networkidle', { timeout });
+    await this.page.waitForLoadState('domcontentloaded', { timeout });
   }
 }

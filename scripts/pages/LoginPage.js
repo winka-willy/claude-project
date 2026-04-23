@@ -61,7 +61,13 @@ export class LoginPage extends BasePage {
     if (!submitSel) throw new Error('Could not find login button.');
     console.log(`  Submitted login (${submitSel})`);
 
-    await this.waitForLoad(30000);
+    // Wait for redirect to the dashboard after SSO login
+    try {
+      await this.page.waitForURL('**/EmployeeDashboard**', { timeout: 60000, waitUntil: 'domcontentloaded' });
+    } catch {
+      // Fallback: just wait for DOM to settle if URL check fails
+      await this.page.waitForLoadState('domcontentloaded', { timeout: 30000 });
+    }
     console.log(`  Post-login URL: ${this.url()}`);
   }
 }
